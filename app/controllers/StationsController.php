@@ -80,9 +80,9 @@ class StationsController extends Controller {
            'locationLongitude' => $locationLongitude
        ]);
 
-       
+       $data = $query->fetchAll();
        //echo '<pre>'; var_dump($query->fetchAll());die;
-       echo json_encode($query->fetchAll());
+       echo json_encode($data);
     }
 
     public function allStations() // afficher toutes les bornes sur la carte
@@ -103,6 +103,8 @@ class StationsController extends Controller {
         ]);
     }
 
+
+////////////////////////////////////////////////////////////////////
 
     public function search() // afficher les bornes par recherches (par ville ou code postale)
     {
