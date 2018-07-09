@@ -26,23 +26,40 @@
             
             }).addTo(map);
 
-            
-            function onLocationFound(nearestStations) {
+            function onLocationFound(myPosition) {
 
-                var radius = nearestStations.accuracy /2;
+                var radius = myPosition.accuracy /2;
                 
-                var all = [nearestStations.latitude, nearestStations.longitude];
+                var all = [myPosition.latitude, myPosition.longitude];
 
                 var latlng = L.latLng(all);
 
-                L.marker(nearestStations.latlng).addTo(map)
-                    .bindPopup("You are within " + radius + " meters from this point").openPopup();
-                L.circle(nearestStations.latlng, radius).addTo(map);
+                L.marker(myPosition.latlng).addTo(map)
+                L.circle(myPosition.latlng, radius).addTo(map);
+                
+                $.ajax({
+                    
+                    //myPosition.latitude
+                    //myPosition.longitude
+                    //nearStation/46.674223/5.551638
+                    
+                    //au retour de l'appel
+                    // boucler sur les résultats du json
+                    // ajouter les markers
+
+                    url: 'nearStation/'+myPosition.latitude+'/'+myPosition.longitude,
+                    type : 'GET', 
+                    dataType : 'json',
+                    success: function(data){ 
+                        //data
+
+                    }
+                });
+                
             }
-
             map.on('locationfound', onLocationFound);
-
         }
+        
         initializeMapAndLocator();
         
         

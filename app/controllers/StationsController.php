@@ -62,23 +62,20 @@ class StationsController extends Controller {
         ini_set('auto_detect_line_endings',FALSE);
     } 
 
-    private function nearestStations($locationLatitude, $locationLongitude) {
-        
-       $sql = "SELECT * , ( 3959 * ACOS( COS( RADIANS( :locationLatitude ) ) * COS( RADIANS( latitude ) ) * COS( RADIANS( longitude ) - RADIANS( :locationLongitude ) ) + SIN( RADIANS( :locationLatitude  ) ) * SIN( RADIANS( latitude )))) AS distance
+    public function nearestStations($locationLatitude, $locationLongitude) {
+
+        $sql = "SELECT * , ( 3959 * ACOS( COS( RADIANS( :locationLatitude ) ) * COS( RADIANS( latitude ) ) * COS( RADIANS( longitude ) - RADIANS( :locationLongitude ) ) + SIN( RADIANS( :locationLatitude  ) ) * SIN( RADIANS( latitude )))) AS distance
                 FROM stations
                 HAVING distance < 25
                 ORDER BY distance";
-        
-        // $pdo = \PicORM::getDataSource();
        
         $pdo = $this->pdo;
-        
-       $query = $pdo->prepare($sql);
+        $query = $pdo->prepare($sql);
 
-       $query->execute([
+        $query->execute([
            'locationLatitude' => $locationLatitude,
            'locationLongitude' => $locationLongitude
-       ]);
+        ]);
 
        $data = $query->fetchAll();
        //echo '<pre>'; var_dump($query->fetchAll());die;
@@ -132,7 +129,5 @@ class StationsController extends Controller {
        
     //$this->url->redirect('adress');
     }
-
-    
 
 }
